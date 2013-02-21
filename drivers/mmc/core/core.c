@@ -249,6 +249,10 @@ mmc_start_request(struct mmc_host *host, struct mmc_request *mrq)
 			mrq->stop->error = 0;
 			mrq->stop->mrq = mrq;
 		}
+
+		/* assign limit value if invalid */
+		if(data->timeout_ns == 0)
+			data->timeout_ns = limit_us * 1000;
 	}
 	mmc_host_clk_hold(host);
 	led_trigger_event(host->led, LED_FULL);

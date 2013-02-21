@@ -102,6 +102,11 @@ static int mmc_decode_csd(struct mmc_card *card)
 	case 0:
 		m = UNSTUFF_BITS(resp, 115, 4);
 		e = UNSTUFF_BITS(resp, 112, 3);
+		if(m == 0) {
+			/* invalid, assign maximum value */
+			m = 0xF;
+			e = 0x7;
+		}
 		csd->tacc_ns	 = (tacc_exp[e] * tacc_mant[m] + 9) / 10;
 		csd->tacc_clks	 = UNSTUFF_BITS(resp, 104, 8) * 100;
 
